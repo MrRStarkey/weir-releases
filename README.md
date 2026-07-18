@@ -1,1 +1,1 @@
-This repo is where parallel programmer realeses will be published
+This repo is where parallel programmer releases will be published
