@@ -22,9 +22,9 @@ The app auto-updates after install -- you'll be notified when a new version is r
 |------|-------|-----------|
 | **git** | `git --version` | Yes |
 | **Claude Code CLI** | `claude --version` | Yes -- must be installed and signed in |
-| **GitHub CLI (`gh`)** | `gh auth status` | Yes -- must be logged in (`gh auth login`) |
+| **GitHub CLI (`gh`)** | `gh auth status` | Yes -- must be logged in |
 
-The app checks these on first launch and shows install guidance if anything is missing.
+The app checks these on first launch and shows install guidance if anything is missing. If the GitHub CLI isn't signed in, the app lets you authenticate directly from within -- no separate terminal needed.
 
 ---
 
