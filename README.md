@@ -1,6 +1,6 @@
-# Parallel Programmer
+# Weir
 
-Run multiple [Claude Code](https://docs.anthropic.com/en/docs/claude-code) tasks against one git repository **in parallel**. Each pool is an isolated workspace -- its own git worktree, branch, terminal, and file viewer -- where Claude works a ticket independently while the app tracks every task from assignment through PR merge.
+Run multiple [Claude Code](https://docs.anthropic.com/en/docs/claude-code) tasks against one git repository **in parallel**. Each stream is an isolated workspace -- its own git worktree, branch, terminal, and file viewer -- where Claude works a ticket independently while the app tracks every task from assignment through PR merge.
 
 ![Windows](https://img.shields.io/badge/platform-Windows-blue)
 
@@ -31,10 +31,10 @@ The app checks these on first launch and shows install guidance if anything is m
 ## How It Works
 
 1. **Open a repository** -- pick any local git repo folder.
-2. **Add pools** -- each pool is a fresh, isolated checkout of your default branch. Add as many as you want to run in parallel.
+2. **Add streams** -- each stream is a fresh, isolated checkout of your default branch. Add as many as you want to run in parallel.
 3. **Assign a ticket** -- give it a ticket ID (becomes the branch name), a title, description, and acceptance criteria. Everything is handed to Claude.
-4. **Launch** -- Claude starts working autonomously in the pool's terminal. With the default prompt, it pauses when work is ready so you can test locally before it pushes and opens a PR.
-5. **Watch the lifecycle** -- the app advances each pool automatically:
+4. **Launch** -- Claude starts working autonomously in the stream's terminal. With the default prompt, it pauses when work is ready so you can test locally before it pushes and opens a PR.
+5. **Watch the lifecycle** -- the app advances each stream automatically:
 
 | State | Meaning |
 |-------|---------|
@@ -42,7 +42,7 @@ The app checks these on first launch and shows install guidance if anything is m
 | ASSIGNED | Branch created, ticket captured, not launched yet |
 | IN PROGRESS | Claude is working (or resumable) |
 | PR CREATED | An open PR detected on the branch -- automatic |
-| MERGED | PR merged -- pool ready to recycle |
+| MERGED | PR merged -- stream ready to recycle |
 | CONCLUDED | Marked done without a PR (investigation, spec, no change needed) |
 | ON HOLD | Paused on an external blocker -- clock frozen, session preserved |
 
@@ -53,19 +53,19 @@ PR creation and merge detection happen automatically via GitHub. For work that e
 ## Key Features
 
 ### Parallel Workspaces
-Multiple pools run concurrently, each in its own git worktree. Assign different tickets to different pools and they all progress independently.
+Multiple streams run concurrently, each in its own git worktree. Assign different tickets to different streams and they all progress independently.
 
 ### Autonomous Lifecycle Tracking
-The app monitors GitHub for PR creation and merge events, advancing pool states automatically. No manual status updates needed.
+The app monitors GitHub for PR creation and merge events, advancing stream states automatically. No manual status updates needed.
 
-### Per-Pool Workspace
-Each pool has its own:
+### Per-Stream Workspace
+Each stream has its own:
 - **Claude terminal** -- the agent's live session, interactive at any time
-- **Shell terminals** -- extra terminals in the pool's worktree for running tests, builds, or git
+- **Shell terminals** -- extra terminals in the stream's worktree for running tests, builds, or git
 - **Files panel** -- changes as diffs against the base branch (including uncommitted work), with Monaco syntax highlighting
 
 ### Activity-Based Time Tracking
-Two clocks per pool: **Elapsed** (wall-clock lead time) and **Active** (time someone was actually working). Activity is tracked per source -- you see separate indicators for your hands-on time vs Claude's working time.
+Two clocks per stream: **Elapsed** (wall-clock lead time) and **Active** (time someone was actually working). Activity is tracked per source -- you see separate indicators for your hands-on time vs Claude's working time.
 
 ### Cross-Repo Time Report
 A single report aggregates every ticket across all your repositories: duration, active time, and the you/Claude split. Filter by date range or repo, drill into per-ticket cycle breakdowns, and export as CSV.
@@ -77,13 +77,13 @@ Claude writes investigation and spec documents while working a ticket. Notes are
 Pause a blocked ticket with **Hold** -- the clock freezes, the Claude session stops (preserving its conversation), and shell tabs stay open. Paste a GitHub PR link as the blocker and the app notifies you when that PR merges. **Resume** picks up exactly where you left off.
 
 ### Attention Indicators
-Pool tabs show who needs you: pulsing **blue** when Claude finished and is waiting, pulsing **amber** when it's asking for permission, and a green check when a held ticket's blocker merged.
+Stream tabs show who needs you: pulsing **blue** when Claude finished and is waiting, pulsing **amber** when it's asking for permission, and a green check when a held ticket's blocker merged.
 
 ### Branch Re-Assignment
-If a ticket's branch already exists (from a previous attempt or another pool), the app detects it and offers to resume the existing work or start fresh.
+If a ticket's branch already exists (from a previous attempt or another stream), the app detects it and offers to resume the existing work or start fresh.
 
 ### Dashboard & Team Activity
-At-a-glance pool overview, completed ticket history with timing stats, and a view of your team's open PRs and remote branches.
+At-a-glance stream overview, completed ticket history with timing stats, and a view of your team's open PRs and remote branches.
 
 ---
 
@@ -91,7 +91,7 @@ At-a-glance pool overview, completed ticket history with timing stats, and a vie
 
 | Shortcut | Action |
 |----------|--------|
-| Ctrl+0...5 | Jump to Dashboard / pool 1-5 |
+| Ctrl+0...5 | Jump to Dashboard / stream 1-5 |
 | Ctrl+Tab / Ctrl+Shift+Tab | Cycle inner / outer tabs |
 | Ctrl+T / Ctrl+W | New / close terminal tab |
 | Ctrl+Shift+A | Assign a ticket |
@@ -102,9 +102,9 @@ At-a-glance pool overview, completed ticket history with timing stats, and a vie
 
 ## Where Your Data Lives
 
-Everything the app creates lives **outside your repository** under `%LOCALAPPDATA%\Parallel Programmer\`. Your repo stays clean -- no files written inside it.
+Everything the app creates lives **outside your repository** under `%LOCALAPPDATA%\Weir\`. Your repo stays clean -- no files written inside it.
 
-State is tracked per repository path: tickets, notes, pool assignments, and history all restore whenever you reopen the same folder.
+State is tracked per repository path: tickets, notes, stream assignments, and history all restore whenever you reopen the same folder.
 
 ---
 
