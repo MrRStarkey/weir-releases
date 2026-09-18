@@ -32,8 +32,8 @@ The app checks these on first launch and shows install guidance if anything is m
 
 1. **Open a repository** -- pick any local git repo folder.
 2. **Add streams** -- each stream is a fresh, isolated checkout of your default branch. Add as many as you want to run in parallel.
-3. **Assign a ticket** -- give it a ticket ID (becomes the branch name), a title, description, and acceptance criteria. Everything is handed to Claude.
-4. **Launch** -- Claude starts working autonomously in the stream's terminal. With the default prompt, it pauses when work is ready so you can test locally before it pushes and opens a PR.
+3. **Assign a ticket** -- give it a ticket ID (becomes the branch name), a title, description, and acceptance criteria. Paste screenshots or mockups from your clipboard right into the dialog -- they're handed to Claude as reference images. Everything is handed to Claude.
+4. **Launch** -- Claude starts working autonomously in the stream's terminal. Assigning can auto-launch it immediately with an optional initial prompt, so dispatching work is a single step. With the default prompt, it pauses when work is ready so you can test locally before it pushes and opens a PR.
 5. **Watch the lifecycle** -- the app advances each stream automatically:
 
 | State | Meaning |
