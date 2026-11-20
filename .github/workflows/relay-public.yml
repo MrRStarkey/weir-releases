@@ -1,0 +1,40 @@
+name: relay-to-classifier
+
+# Public intake, the public side (#64). A public repo cannot use an action stored in a private
+# repo, so this repo never runs the classifier: it tells the private repo which issue to look at,
+# and the private repo's classify-public-intake.yml (templates/classify-public-intake.yml) does
+# the rest with its own secrets.
+#
+# Copy this file into the public repo's .github/workflows/ and replace OWNER/PRIVATE_REPO with the
+# private repo, and main with its default branch if that differs. Set one secret here, RELAY_TOKEN:
+# a fine-grained token with repository access to the private repo only and the one permission
+# Actions: read and write. It can start a run there and nothing else; it cannot read this repo's
+# issues or the private repo's code. The --ref is required: without it gh looks up the default
+# branch, which that token is not allowed to read.
+#
+# The dispatch carries the issue number and nothing else. The private side reads the issue, its
+# author and its labels itself, and forces a run only when the issue has the reclassify label
+# and the timeline shows someone with triage or above added it. A leaked RELAY_TOKEN can at most
+# start unforced runs, which the public_intake limits bound.
+#
+# Only issues events run this, never pull_request_target: a fork's pull request never sees the
+# secret. No checkout and no third-party action: nothing from the issue reaches a shell.
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions: {}
+
+jobs:
+  relay:
+    # Other labels relay nothing.
+    if: github.event.action == 'opened' || github.event.label.name == 'reclassify'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ask the private repo to classify this issue
+        env:
+          GH_TOKEN: ${{ secrets.RELAY_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: gh workflow run classify-public-intake.yml --repo MrRStarkey/parallel-programmer --ref main -f issue_number="$ISSUE_NUMBER"
