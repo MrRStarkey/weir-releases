@@ -4,6 +4,8 @@ Run multiple [Claude Code](https://docs.anthropic.com/en/docs/claude-code) tasks
 
 ![Windows](https://img.shields.io/badge/platform-Windows-blue)
 
+> **User guide:** the full guide is built into Weir (**☰ > Help > User Guide**).
+
 ---
 
 ## Download & Install
@@ -60,7 +62,7 @@ The app monitors GitHub for PR creation and merge events, advancing stream state
 
 ### Per-Stream Workspace
 Each stream has its own:
-- **Claude terminal** -- the agent's live session, interactive at any time
+- **Claude terminal** -- the agent's live session, interactive at any time. Workers start with auto-accept edits already on so they can work without you approving every change (configurable in Settings)
 - **Shell terminals** -- extra terminals in the stream's worktree for running tests, builds, or git
 - **Files panel** -- changes as diffs against the base branch (including uncommitted work), with Monaco syntax highlighting
 
@@ -71,7 +73,7 @@ Two clocks per stream: **Elapsed** (wall-clock lead time) and **Active** (time s
 A single report aggregates every ticket across all your repositories: duration, active time, and the you/Claude split. Filter by date range or repo, drill into per-ticket cycle breakdowns, and export as CSV.
 
 ### Investigation & Spec Notes
-Claude writes investigation and spec documents while working a ticket. Notes are stored outside your repo, kept per ticket, and browsable after the ticket is done.
+Claude writes investigation and spec documents while working a ticket. Notes are stored outside your repo, kept per ticket, and browsable after the ticket is done. Draft investigations -- research started in the repo chat before a ticket exists -- appear in the same Notes tab marked as drafts, so you can read them in the app before deciding to promote one to a ticket.
 
 ### Hold & Resume
 Pause a blocked ticket with **Hold** -- the clock freezes, the Claude session stops (preserving its conversation), and shell tabs stay open. Paste a GitHub PR link as the blocker and the app notifies you when that PR merges. **Resume** picks up exactly where you left off.
